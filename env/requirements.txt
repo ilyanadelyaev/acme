@@ -1,0 +1,17 @@
+# REST
+uWSGI==2.0.13.1
+Flask==0.10.1
+
+# Tools
+requests==2.10.0
+configure==0.5
+
+# Test
+mock==2.0.0
+pytest==3.0.3
+pytest-xdist==1.15.0
+Flask-WebTest==0.0.7
+requests-mock==1.1.0
+pylint==1.5.4
+pep8==1.7.0
+pycodestyle==2.2.0

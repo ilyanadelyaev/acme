@@ -1,0 +1,9 @@
+# YAML
+
+neuro:
+    api:
+        logger:
+            level: INFO
+            handler_type: file
+            path: ./env/logs/test
+            filename: acme-neuro-api.log

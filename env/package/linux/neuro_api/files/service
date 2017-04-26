@@ -1,0 +1,17 @@
+[Unit]
+Description=ACME Neuro API (uWSGI)
+After=network.target syslog.target
+
+[Service]
+EnvironmentFile=/etc/sysconfig/acme-neuro-api
+ExecStartPre=-/usr/sbin/sysctl -w net.core.somaxconn=9192
+ExecStart=/usr/sbin/uwsgi --ini /etc/acme/neuro_api/uwsgi.ini
+ExecReload=/bin/kill -HUP $MAINPID
+KillSignal=SIGINT
+Restart=always
+Type=notify
+StandardError=syslog
+NotifyAccess=all
+
+[Install]
+WantedBy=multi-user.target

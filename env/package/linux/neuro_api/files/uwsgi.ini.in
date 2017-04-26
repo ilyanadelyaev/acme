@@ -1,0 +1,36 @@
+[uwsgi]
+
+uid = neuro-api
+gid = neuro-api
+
+cap = setgid,setuid
+max-fd = 4096
+
+socket = 0.0.0.0:9000
+chmod-socket = 660
+protocol = http
+procname_append = "acme_neuro_api"
+
+plugin = python,syslog
+chdir = __PYTHON_SITE_LIB__
+module = acme.neuro.api.wsgi
+
+logto = /var/log/acme/neuro_api/uwsgi-acme-neuro-api.log
+pidfile = /run/acme/neuro_api/acme-neuro-api-uwsgi.pid
+stats = /run/acme/neuro_api/acme-neuro-api-uwsgi-stats.sock
+
+master-as-root = true
+harakiri=20
+enable-threads=1
+buffer-size=16384
+threads=2
+listen=1024
+max-worker-lifetime=3600
+
+master = 1
+processes = 2
+vacuum = 1
+thunder-lock = 1
+single-interpreter = 1
+offload-threads = 4
+lazy-apps = 1

@@ -1,0 +1,18 @@
+/var/log/acme/neuro_api/acme-*.log {
+    daily
+    rotate 7
+    copytruncate
+    delaycompress
+    compress
+    notifempty
+    missingok
+}
+/var/log/acme/neuro_api/uwsgi-*.log {
+    daily
+    rotate 7
+    copytruncate
+    delaycompress
+    compress
+    notifempty
+    missingok
+}
