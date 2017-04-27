@@ -15,12 +15,6 @@ from keras.layers.core import Dense, Dropout, Activation
 from keras.layers.embeddings import Embedding
 from keras.layers.recurrent import LSTM
 
-import numpy as np
-import keras
-from keras.preprocessing.text import Tokenizer
-
-import acme.tools.char_tools as _char_tools
-
 
 logger = logging.getLogger(__name__)
 

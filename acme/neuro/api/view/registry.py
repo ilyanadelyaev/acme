@@ -13,9 +13,10 @@ def register_views(app):
     """
     Views register magic
     """
+    import acme.neuro.api.view.web as web
     import acme.neuro.api.view.v1 as v1
     #
-    for module in (v1, ):
+    for module in (web, v1, ):
         module.register(app)
 
 

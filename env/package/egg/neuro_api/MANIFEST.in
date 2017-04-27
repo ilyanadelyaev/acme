@@ -1,0 +1,2 @@
+recursive-include acme/neuro/api/templates *
+recursive-include acme/neuro/api/static *

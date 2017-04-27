@@ -15,14 +15,14 @@ def register(app):
     """
     Views register
     """
-    blueprint = flask.Blueprint('v1', __name__, url_prefix='/v1/')
+    blueprint = flask.Blueprint('v1', __name__, url_prefix='/api/v1/')
     #
     View(blueprint)
     #
     app.flask_app.register_blueprint(blueprint)
 
 
-class View(rest_base.BaseView):
+class View(rest_base.JSONView):
     ROUTE_ROOT = '{}/'
 
     def __init__(self, blueprint):
@@ -37,9 +37,9 @@ class View(rest_base.BaseView):
             except ImportError:
                 version = '0'
             #
-            return flask.jsonify({
+            return {
                 'version': version,
-            }), 200
+            }
 
         self._route(
             blueprint,
