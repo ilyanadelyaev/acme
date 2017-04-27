@@ -5,3 +5,5 @@
 
 env/ve/
 env/logs/
+
+env/config/neuro/test.config.yml

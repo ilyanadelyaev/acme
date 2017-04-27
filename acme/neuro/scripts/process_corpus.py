@@ -8,15 +8,9 @@ import acme.neuro.logic.corpus as _corpus
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--corpus-file')
+    parser.add_argument('--corpus-csv')
     args = parser.parse_args()
 
-    raw_data = _corpus.prepare(
-        file_path=args.corpus_file,
+    data, dictionary = _corpus.process_csv(
+        file_path=args.corpus_csv,
     )
-
-    data, dictionary = _corpus.encode_to_numbers(
-        raw_data=raw_data,
-    )
-
-    print data[-1]
