@@ -1,3 +1,6 @@
+# coding: utf8
+from __future__ import unicode_literals
+
 import logging
 
 import TwitterSearch
@@ -18,6 +21,8 @@ def fetch_tweets(
         lang,
         search,
 ):
+    search = search.encode('utf8')
+
     logger.debug(
         'Search for (%s) tweets: %s',
         lang, search,
@@ -39,7 +44,10 @@ def fetch_tweets(
         tso.set_include_entities(False)
 
         for tweet in twitter_search.search_tweets_iterable(tso):
-            data.append(tweet['text'])
+            data.append({
+                'author': tweet['user']['screen_name'],
+                'text': tweet['text'],
+            })
 
     except TwitterSearch.TwitterSearchException as ex:
         err = '({}) {}'.format(
