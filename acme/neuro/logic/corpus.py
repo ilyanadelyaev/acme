@@ -9,13 +9,15 @@ import acme.neuro.logic.sentence as _sentence
 logger = logging.getLogger(__name__)
 
 
-def process_csv(file_path):
+def process_csv(
+        file_path,
+        dictionary,
+):
     logger.info('Read "%s" corpus file', file_path)
 
     data = []
 
-    dictionary = {}
-    word_id = 0
+    word_id = len(dictionary)
     total_words_count = 0
 
     i = 0
