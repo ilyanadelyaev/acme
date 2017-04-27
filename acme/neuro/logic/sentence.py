@@ -21,7 +21,7 @@ def prepare(line):
 
     # clear sentence. only words and numbers
 
-    sentence = re.sub('[^#а-яa-z\s]*', '', sentence)
+    sentence = re.sub('[^а-яa-z\s]*', '', sentence)
     sentence = re.sub(r'\s+', ' ', sentence)
 
     # make array
@@ -35,3 +35,17 @@ def prepare(line):
     #
 
     return sentence
+
+
+def encode(dictionary, sentence):
+    result = []
+
+    for word in sentence:
+        if not word:
+            continue
+        word = word.strip()
+        if word not in dictionary:
+            dictionary[word] = len(dictionary)
+        result.append(dictionary[word])
+
+    return result

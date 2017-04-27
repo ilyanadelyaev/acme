@@ -15,23 +15,24 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     dictionary = {}
+    data = []
 
-    positive_data, dictionary = _corpus.process_csv(
+    dictionary, data = _corpus.process_csv(
         file_path=args.positive_csv,
         dictionary=dictionary,
+        data=data,
     )
-    negative_data, dictionary = _corpus.process_csv(
+    dictionary, data = _corpus.process_csv(
         file_path=args.negative_csv,
         dictionary=dictionary,
+        data=data,
     )
 
     print 'dictionary size =', len(dictionary)
-    print 'positive_data size =', len(positive_data)
-    print 'negative_data size =', len(negative_data)
+    print 'data size =', len(data)
 
     with open(args.corpus_out, 'wb') as f:
         f.write(json.dumps({
             'dictionary': dictionary,
-            'positive_data': positive_data,
-            'negative_data': negative_data,
+            'data': data,
         }))
