@@ -46,11 +46,16 @@ lib__test:
 neuro_core__test_lint:
 	./env/ve/bin/pycodestyle --config='./env/config/pycodestyle' ./acme/neuro/logic/
 	./env/ve/bin/pylint --rcfile="./env/config/pylintrc" --errors-only --reports=n ./acme/neuro/logic/
+	#
+	./env/ve/bin/pycodestyle --config='./env/config/pycodestyle' ./acme/neuro/scripts/
+	./env/ve/bin/pylint --rcfile="./env/config/pylintrc" --errors-only --reports=n ./acme/neuro/scripts/
 
 neuro_core__test_unit:
 	make __test_clean__
 	#
 	# PYTHONPATH="./:${PYTHONPATH}" CONFIG="./env/config/neuro/test.config.yml" ./env/ve/bin/py.test -vvv -c ./env/config/pytest.ini ./acme/neuro/logic/ -n4
+	#
+	# PYTHONPATH="./:${PYTHONPATH}" CONFIG="./env/config/neuro/test.config.yml" ./env/ve/bin/py.test -vvv -c ./env/config/pytest.ini ./acme/neuro/scripts/ -n4
 
 neuro_core__test:
 	make neuro_core__test_lint

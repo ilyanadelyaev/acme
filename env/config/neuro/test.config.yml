@@ -7,3 +7,7 @@ neuro:
             handler_type: file
             path: ./env/logs/test
             filename: acme-neuro-api.log
+
+    scripts:
+        logger:
+            level: INFO
