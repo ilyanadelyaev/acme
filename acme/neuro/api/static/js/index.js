@@ -6,8 +6,7 @@ var Index = React.createClass({
         return {
             tweets: [],
             tweets_search: '',
-            button_disabled: false,
-            input_disabled: false,
+            searching_state: false,
         };
     },
 
@@ -18,10 +17,8 @@ var Index = React.createClass({
     },
 
     fetchTweets: function() {
-        this.setState({
-            button_disabled: true,
-            input_disabled: true
-        });
+        this.setState({tweets: []});
+        this.setState({searching_state: true});
         //
         var url = '/api/v1/tweets/?lang=ru&search=' + this.state.tweets_search;
         //
@@ -32,17 +29,11 @@ var Index = React.createClass({
             cache: false,
             success: function(data) {
                 this.setState({tweets: data.objects});
-                this.setState({
-                    button_disabled: false,
-                    input_disabled: false
-                });
+                this.setState({searching_state: false});
             }.bind(this),
             error: function(xhr, status, err) {
                 console.error(url, status, err.toString());
-                this.setState({
-                    button_disabled: false,
-                    input_disabled: false
-                });
+                this.setState({searching_state: false});
             }.bind(this)
         });
     },
@@ -63,21 +54,41 @@ var Index = React.createClass({
             <div className='neuro-body'>
                 <h1>ACME / Neuro</h1>
 
-                <input
-                    type="text"
-                    onChange={this.updateTweetsSearch}
-                    disabled={this.state.input_disabled}
+                <div className="row">
+                    <div className="col-lg-6">
+                        <div className="input-group">
+                            <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Введите слово или несколько слов для поиска"
+                                onChange={this.updateTweetsSearch}
+                                disabled={this.state.searching_state}
+                            />
+
+                            <span className="input-group-btn">
+                                <button
+                                    className="btn btn-primary"
+                                    onClick={this.fetchTweets}
+                                    disabled={ this.state.searching_state || ! this.state.tweets_search }
+                                >
+                                    Искать в twitter
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <img
+                    src="/static/images/loader.gif"
+                    height='40px'
+                    hidden={ ! this.state.searching_state }
+                    aligin='center'
                 />
 
-                <button
-                    className="btn btn-primary"
-                    onClick={this.fetchTweets}
-                    disabled={this.state.button_disabled}
+                <table
+                    className="table table-bordered table-striped table-responsive"
+                    hidden={ ! tweets.length }
                 >
-                    Fetch tweets
-                </button>
-
-                <table className="table table-bordered table-striped table-responsive">
                     <thead>
                         <tr>
                             <th>Оценка</th>
@@ -89,6 +100,7 @@ var Index = React.createClass({
                         {tweets}
                     </tbody>
                 </table>
+
             </div>
         );
     }
