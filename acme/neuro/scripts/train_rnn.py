@@ -10,21 +10,27 @@ import acme.neuro.logic.rnn as _rnn
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--corpus')
+    parser.add_argument('--model-json-out')
+    parser.add_argument('--model-h5-out')
     args = parser.parse_args()
 
     with open(args.corpus, 'rb') as f:
         raw_data = json.loads(f.read())
 
     dictionary = raw_data['dictionary']
-    positive_data = raw_data['positive_data']
-    negative_data = raw_data['negative_data']
+    data = raw_data['data']
 
-    print 'dictionary size =', len(dictionary)
-    print 'positive_data size =', len(positive_data)
-    print 'negative_data size =', len(negative_data)
+    model = _rnn.train_model(
+        dictionary=dictionary,
+        data=data,
+    )
 
-    _rnn.train_model(
-        dictionary_size=len(dictionary),
-        positive_data=positive_data,
-        negative_data=negative_data,
+    with open(args.model_json_out, 'wb') as f:
+        f.write(model.to_json())
+    model.save_weights(args.model_h5_out)
+
+    _rnn.check_model(
+        model=model,
+        dictionary=dictionary,
+        data=data,
     )

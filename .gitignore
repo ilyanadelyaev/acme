@@ -8,3 +8,5 @@ env/logs/
 
 env/config/neuro/test.config.yml
 data/corpus.json
+data/model.h5
+data/model.json
