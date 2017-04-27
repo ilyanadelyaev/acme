@@ -37,15 +37,19 @@ def prepare(line):
     return sentence
 
 
-def encode(dictionary, sentence):
+def encode(dictionary, sentence, append_dict=False):
     result = []
 
     for word in sentence:
+
         if not word:
             continue
         word = word.strip()
-        if word not in dictionary:
+
+        if word not in dictionary and append_dict:
             dictionary[word] = len(dictionary)
-        result.append(dictionary[word])
+
+        if word in dictionary:
+            result.append(dictionary[word])
 
     return result

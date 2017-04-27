@@ -9,6 +9,8 @@ import acme.tools.twitter_api as _twitter_api
 
 from acme.lib.rest import base as rest_base
 
+import acme.neuro.logic.rnn as _rnn
+
 
 logger = logging.getLogger(__name__)
 
@@ -71,8 +73,16 @@ class View(rest_base.JSONView):
                 search=args.search,
             )
             #
+            sentences = []
             for o in objects:
-                o['value'] = -1.0
+                sentences.append(o['text'])
+            result = _rnn.predict(
+                self._g.model,
+                self._g.model_dictionary,
+                sentences,
+            )
+            for i, o in enumerate(objects):
+                o['value'] = int(result[i][0] * 100.0)
             #
             return {
                 'objects': objects,

@@ -33,6 +33,9 @@ def register_flask_callbacks(application):
         - Set request_id
         - Log request data
         """
+        # model
+        flask.g.model = application.model
+        flask.g.model_dictionary = application.model_dictionary
         # request id
         flask.g.request_id = str(uuid.uuid4())
         # logging

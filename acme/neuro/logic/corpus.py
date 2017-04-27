@@ -1,7 +1,10 @@
 # coding: utf-8
 from __future__ import unicode_literals
 
+import json
 import logging
+
+from acme.tools.config import config
 
 import acme.neuro.logic.sentence as _sentence
 
@@ -53,7 +56,7 @@ def process_csv(
 
             # encode
 
-            sentence = _sentence.encode(dictionary, sentence)
+            sentence = _sentence.encode(dictionary, sentence, append_dict=True)
 
             # convert value
 
@@ -75,3 +78,9 @@ def process_csv(
     )
 
     return dictionary, data
+
+
+def load_dictionary():
+    with open(config['neuro/logic/corpus/json_path'], 'rb') as f:
+        raw_data = json.loads(f.read())
+    return raw_data['dictionary']

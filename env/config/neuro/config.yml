@@ -15,6 +15,13 @@ neuro:
             path: /var/log/acme/neuro-api/
             filename: acme-neuro-api.log
 
+    logic:
+        corpus:
+            json_path: ''
+        model:
+            json_path: ''
+            h5_path: ''
+
     scripts:
         logger:
             level: INFO

@@ -8,12 +8,16 @@ import numpy as np
 import os
 os.environ['KERAS_BACKEND'] = 'theano'
 
-from keras.preprocessing import sequence
-from keras.utils import np_utils
 from keras.models import Sequential
 from keras.layers.core import Dense, Dropout, Activation
 from keras.layers.embeddings import Embedding
 from keras.layers.recurrent import LSTM
+
+import keras.models
+
+from acme.tools.config import config
+
+import acme.neuro.logic.sentence as _sentence
 
 
 logger = logging.getLogger(__name__)
@@ -114,5 +118,30 @@ def check_model(
     )
 
 
-def predict(model, sentence):
-    return model.predict_proba(sentence)
+def load_model():
+    with open(config['neuro/logic/model/json_path'], 'rb') as f:
+        model = keras.models.model_from_json(f.read())
+    model.load_weights(config['neuro/logic/model/h5_path'])
+    return model
+
+
+def predict(
+        model,
+        dictionary,
+        sentences,
+):
+    data = []
+    for s in sentences:
+        s = _sentence.prepare(s)
+        s = _sentence.encode(dictionary, s)
+        data.append(s)
+
+    x = np.zeros(
+        (len(data), MAX_SENTENCE_LEN),
+    )
+    for i, d in enumerate(data):
+        x[i] = np.resize(d, (MAX_SENTENCE_LEN,))
+
+    result = model.predict_proba(x)
+
+    return result

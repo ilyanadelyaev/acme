@@ -8,12 +8,19 @@ from acme.tools.config import config
 
 import acme.neuro.api.view.registry as view_registry
 
+import acme.neuro.logic.rnn as _rnn
+import acme.neuro.logic.corpus as _corpus
+
 
 logger = logging.getLogger(__name__)
 
 
 class Application(object):
     def __init__(self):
+        # neuro model
+        self.model = _rnn.load_model()
+        self.model_dictionary = _corpus.load_dictionary()
+
         # flask app
         self.flask_app = flask.Flask('acme.neuro.api')
 
