@@ -78,6 +78,9 @@ neuro_api__test:
 neuro_api__build:
 	rpmbuild -bb env/package/linux/neuro_api/rpm.spec
 
+neuro_api__run:
+	PYTHONPATH="./:$PYTHONPATH" CONFIG="./env/config/neuro/test.config.yml" gunicorn acme.neuro.api.wsgi:application -w 2 -b 0.0.0.0:9000
+
 
 test_lint:
 	make lib__test_lint

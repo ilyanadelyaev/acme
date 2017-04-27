@@ -1,7 +1,27 @@
-<html>
-<head>
-</head>
-<body>
-hello
-</body>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <title>ACME / Neuro</title>
+
+        <link href="{{ url_for('static', filename='css/lib/bootstrap.min.css') }}" rel="stylesheet">
+    </head>
+
+    <body>
+        <div id="application"></div>
+
+        <script src="{{ url_for('static', filename='js/lib/jquery.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/lib/jquery.cookie.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/lib/bootstrap.min.js') }}"></script>
+
+        <script src="{{ url_for('static', filename='js/lib/react.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/lib/react-dom.js') }}"></script>
+
+        <script src="{{ url_for('static', filename='js/lib/babel-core-browser.min.js') }}"></script>
+
+        <script type="text/babel" src="{{ url_for('static', filename='js/index.js') }}"></script>
+    </body>
 </html>
