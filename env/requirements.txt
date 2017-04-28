@@ -1,5 +1,4 @@
 # REST
-uWSGI==2.0.13.1
 Flask==0.10.1
 
 # Neuro
