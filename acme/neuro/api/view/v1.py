@@ -81,12 +81,15 @@ class View(rest_base.JSONView):
                 self._g.model_dictionary,
                 sentences,
             )
+            values = []
             for i, o in enumerate(objects):
                 o['value'] = int(result[i][0] * 100.0)
+                values.append(o['value'])
             #
             return {
                 'objects': objects,
                 'count': len(objects),
+                'average_value': (sum(values) / float(len(values))),
             }
 
         self._route(

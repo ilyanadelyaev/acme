@@ -23,7 +23,7 @@ import acme.neuro.logic.sentence as _sentence
 logger = logging.getLogger(__name__)
 
 
-MAX_SENTENCE_LEN = 140  # words (because twitter)
+MAX_SENTENCE_LEN = 70  # words (because twitter)
 
 
 def __prepare_x_y(

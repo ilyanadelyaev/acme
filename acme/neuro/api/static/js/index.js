@@ -4,9 +4,11 @@ var Index = React.createClass({
 
     getInitialState: function() {
         return {
+            average_value: 0.0,
             tweets: [],
             tweets_search: '',
             searching_state: false,
+            error: '',
         };
     },
 
@@ -17,8 +19,10 @@ var Index = React.createClass({
     },
 
     fetchTweets: function() {
-        this.setState({tweets: []});
-        this.setState({searching_state: true});
+        this.setState({
+            searching_state: true,
+            error: '',
+        });
         //
         var url = '/api/v1/tweets/?lang=ru&search=' + this.state.tweets_search;
         //
@@ -28,12 +32,19 @@ var Index = React.createClass({
             dataType: 'json',
             cache: false,
             success: function(data) {
-                this.setState({tweets: data.objects});
-                this.setState({searching_state: false});
+                this.setState({
+                    tweets: data.objects,
+                    average_value: data.average_value,
+                    searching_state: false,
+                    error: '',
+                });
             }.bind(this),
             error: function(xhr, status, err) {
                 console.error(url, status, err.toString());
-                this.setState({searching_state: false});
+                this.setState({
+                    searching_state: false,
+                    error: err.toString(),
+                });
             }.bind(this)
         });
     },
@@ -54,36 +65,47 @@ var Index = React.createClass({
             <div className='neuro-body'>
                 <h1>ACME / Neuro</h1>
 
-                <div className="row">
-                    <div className="col-lg-6">
-                        <div className="input-group">
-                            <input
-                                type="text"
-                                className="form-control"
-                                placeholder="Введите слово или несколько слов для поиска"
-                                onChange={this.updateTweetsSearch}
-                                disabled={this.state.searching_state}
-                            />
+                <div
+                    className="alert alert-danger"
+                    role="alert"
+                    hidden={ ! this.state.error.length }
+                >
+                    { this.state.error }
+                </div>
 
-                            <span className="input-group-btn">
-                                <button
-                                    className="btn btn-primary"
-                                    onClick={this.fetchTweets}
-                                    disabled={ this.state.searching_state || ! this.state.tweets_search }
-                                >
-                                    Искать в twitter
-                                </button>
-                            </span>
-                        </div>
+                <div className="row">
+                    <div className="input-group">
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Введите слово или несколько слов для поиска"
+                            onChange={this.updateTweetsSearch}
+                            disabled={this.state.searching_state}
+                        />
+                        <span className="input-group-btn">
+                            <button
+                                className="btn btn-primary"
+                                onClick={this.fetchTweets}
+                                disabled={ this.state.searching_state || ! this.state.tweets_search }
+                            >
+                                Искать в twitter
+                            </button>
+                        </span>
                     </div>
                 </div>
 
-                <img
-                    src="/static/images/loader.gif"
-                    height='40px'
-                    hidden={ ! this.state.searching_state }
-                    aligin='center'
-                />
+                <div>
+                    <img
+                        src="/static/images/loader.gif"
+                        height='40px'
+                        hidden={ ! this.state.searching_state }
+                        aligin='center'
+                    />
+                </div>
+
+                <div>
+                    <pre>{ this.state.average_value }</pre>
+                </div>
 
                 <table
                     className="table table-bordered table-striped table-responsive"
